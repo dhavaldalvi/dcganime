@@ -25,18 +25,16 @@ def build_generator():
 def build_discriminator():
     model = tf.keras.Sequential([
         layers.Input(shape = (IMG_HEIGHT, IMG_WIDTH, CHANNELS)),
-
-        layers.Conv2D(128, 5, strides = 2, padding = 'same'),
+        layers.Conv2D(64, 4, strides = 2, padding = 'same'),
         layers.LeakyReLU(0.2),
-        layers.SpatialDropout2D(0.3),
 
-        layers.Conv2D(256, 5, strides = 2, padding = 'same'),
+        layers.Conv2D(128, 4, strides = 2, padding = 'same'),
+        layers.BatchNormalization(),
         layers.LeakyReLU(0.2),
-        layers.SpatialDropout2D(0.3),
 
-        layers.Conv2D(512, 5, strides = 2, padding = 'same'),
+        layers.Conv2D(256, 4, strides = 2, padding = 'same'),
+        layers.BatchNormalization(),
         layers.LeakyReLU(0.2),
-        layers.SpatialDropout2D(0.3,),
 
         layers.Flatten(),
         layers.Dense(1)
