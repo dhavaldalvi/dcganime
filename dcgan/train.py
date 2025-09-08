@@ -3,12 +3,10 @@ from config.constants import *
 from model import *
 from utils import generate_and_save_images
 import os
-
-generator = build_generator()
-discriminator = build_discriminator()
+import matplotlib.pyplot as plt
 
 @tf.function
-def train_step(images):
+def train_step(images, generator, discriminator):
     noise = tf.random.normal([BATCH_SIZE, LATENT_DIM])
 
     with tf.GradientTape() as disc_tape, tf.GradientTape() as gen_tape:
@@ -32,7 +30,7 @@ def train_step(images):
     return gen_loss, disc_loss
 
 
-def train(dataset, epochs):
+def train(dataset, epochs, generator):
     seed = tf.random.normal([16, LATENT_DIM])
     os.makedirs('generated_images', exit_ok = True)
 
@@ -43,3 +41,13 @@ def train(dataset, epochs):
 
         print(f"Generator loss: {g_loss.numpy():.4f} | Discriminator loss: {d_loss.numpy():.4f}")
         generate_and_save_images(generator, epoch, seed)
+
+def generate_images(n, generator):
+    noise = tf.random.normal([n, LATENT_DIM])
+    images = generator(noise, training = False)
+    images = (images + 1)/2.0
+
+    for i in range(n):
+        plt.imshow(images[i])
+        plt.axis('off')
+        plt.show()

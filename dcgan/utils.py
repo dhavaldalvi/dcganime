@@ -20,7 +20,7 @@ def preprocess_image(file_path):
     img = (img - 0.5)*2
     return img
 
-def load_dataset(image_dir, batch_size, ):
+def load_dataset(image_dir):
     image_paths = get_image_file(image_dir)
     dataset = tf.data.Dataset.from_tensor_slices(image_paths)
     dataset = dataset.map(preprocess_image, num_parallel_calls = tf.data.AUTOTUNE)
