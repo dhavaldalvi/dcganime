@@ -4,17 +4,21 @@ from train import *
 from config.constants import *
 import os
 
-dataset = load_dataset('data/archive/images')
+def main():
+    dataset = load_dataset('data/archive/images')
 
-generator = build_generator()
-discriminator = build_discriminator()
+    generator = build_generator()
+    discriminator = build_discriminator()
 
-train(dataset, EPOCHS)
+    train(dataset, EPOCHS)
 
-os.makedirs('../outputs/models/generator', exist_ok=True)
-os.makedirs('../outputs/models/generator', exist_ok=True)
+    os.makedirs('../outputs/models/generator', exist_ok=True)
+    os.makedirs('../outputs/models/generator', exist_ok=True)
 
-generator.save("../outputs/models/generator")
-discriminator.save("../outputs/models/discriminator")
+    generator.save("../outputs/models/generator")
+    discriminator.save("../outputs/models/discriminator")
 
-generate_images(n=5)
+    generate_images(n=5)
+
+if __name__ == "__main__":
+    main()
