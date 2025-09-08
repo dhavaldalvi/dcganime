@@ -1,7 +1,7 @@
 import tensorflow as tf
-from config.constants import *
-from model import *
-from utils import generate_and_save_images
+from dcgan.config.constants import LATENT_DIM, BATCH_SIZE
+from dcgan.model import cross_entropy, generator_optimizer, discriminator_optimizer
+from dcgan.utils import generate_and_save_images
 import os
 import matplotlib.pyplot as plt
 
@@ -25,19 +25,19 @@ def train_step(images, generator, discriminator):
     gradients_of_discriminator = disc_tape.gradient(disc_loss, discriminator.trainable_variables)
 
     generator_optimizer.apply_gradients(zip(gradients_of_generator, generator.trainable_variables))
-    discrminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
+    discriminator_optimizer.apply_gradients(zip(gradients_of_discriminator, discriminator.trainable_variables))
 
     return gen_loss, disc_loss
 
 
-def train(dataset, epochs, generator):
+def train(dataset, epochs, generator, discriminator):
     seed = tf.random.normal([16, LATENT_DIM])
-    os.makedirs('generated_images', exit_ok = True)
+    os.makedirs('generated_images', exist_ok = True)
 
     for epoch in range(1, epochs + 1):
         print(f"Epoch {epoch}/{epochs}")
         for image_batch in dataset:
-            g_loss, d_loss = train_step(image_batch)
+            g_loss, d_loss = train_step(image_batch, generator, discriminator)
 
         print(f"Generator loss: {g_loss.numpy():.4f} | Discriminator loss: {d_loss.numpy():.4f}")
         generate_and_save_images(generator, epoch, seed)
@@ -50,6 +50,5 @@ def generate_images(n, generator):
     for i in range(n):
         plt.imshow(images[i])
         plt.axis('off')
-        plt.show()
-        plt.savefig(f"../outputs/samples/sample_{i}.png")
+        plt.savefig(f"outputs/samples/sample_{i}.png")
         plt.close()

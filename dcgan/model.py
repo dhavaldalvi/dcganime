@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras import layers
-from config.constants import *
+from dcgan.config.constants import LATENT_DIM, IMG_HEIGHT, IMG_WIDTH, CHANNELS
 
 def build_generator():
     model = tf.keras.Sequential([
@@ -28,21 +28,21 @@ def build_discriminator():
 
         layers.Conv2D(128, 5, strides = 2, padding = 'same'),
         layers.LeakyReLU(0.2),
-        layers.Dropout(0.3),
+        layers.SpatialDropout2D(0.3),
 
         layers.Conv2D(256, 5, strides = 2, padding = 'same'),
         layers.LeakyReLU(0.2),
-        layers.Dropout(0.3),
+        layers.SpatialDropout2D(0.3),
 
         layers.Conv2D(512, 5, strides = 2, padding = 'same'),
         layers.LeakyReLU(0.2),
-        layers.Dropout(0.3,),
+        layers.SpatialDropout2D(0.3,),
 
-        layers.Flattent(),
+        layers.Flatten(),
         layers.Dense(1)
     ])
     return model
 
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits = True)
 generator_optimizer = tf.keras.optimizers.Adam(1e-4, beta_1 = 0.5)
-discrminator_optimizer = tf.keras.optimizers.Adam(1e-4, beta_1 = 0.5)
+discriminator_optimizer = tf.keras.optimizers.Adam(1e-4, beta_1 = 0.5)
