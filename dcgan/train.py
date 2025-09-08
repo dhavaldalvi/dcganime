@@ -51,3 +51,5 @@ def generate_images(n, generator):
         plt.imshow(images[i])
         plt.axis('off')
         plt.show()
+        plt.savefig(f"../outputs/samples/sample_{i}.png")
+        plt.close()
