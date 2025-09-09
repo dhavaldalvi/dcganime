@@ -3,6 +3,7 @@ import glob
 import tensorflow as tf
 from dcgan.config.constants import IMG_HEIGHT, IMG_WIDTH, BATCH_SIZE
 import matplotlib.pyplot as plt
+import cv2
 
 def get_image_files(image_dir):
     extensions = ['jpg', 'jpeg', 'png']
@@ -41,3 +42,30 @@ def generate_and_save_images(model, epoch, test_input):
         plt.axis('off')
     plt.savefig(f"outputs/generated_images/images_at_epoch_{epoch:04d}.png")
     plt.close()
+
+def make_video(image_path, video_path, fps=30):
+    image_folder = image_path
+    output_video = video_path
+    
+    # Get image file list and sort it
+    images =  [img for img in os.listdir(image_folder) if img.endswith(('.jpg','.png'))]
+    images.sort()
+
+    # Read first image to get dimensions
+    first_image_path = os.path.join(image_folder, images[0])
+    frame = cv2.imread(first_image_path)
+    height, width, layers = frame.shape
+
+    # Define video codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    video = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
+
+    # Add each image to the video
+    for image in images:
+        img_path = os.path.join(image_folder, image)
+        frame = cv2.imread(img_path)
+        video.write(frame)
+
+    # Release the video writer
+    video.release()
+    print(f'video saved as {output_video}')

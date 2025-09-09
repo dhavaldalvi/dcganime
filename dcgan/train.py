@@ -32,7 +32,6 @@ def train_step(images, generator, discriminator):
 
 def train(dataset, epochs, generator, discriminator):
     seed = tf.random.normal([16, LATENT_DIM])
-    os.makedirs('generated_images', exist_ok = True)
 
     for epoch in range(1, epochs + 1):
         print(f"Epoch {epoch}/{epochs}")

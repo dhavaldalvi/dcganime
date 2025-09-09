@@ -1,4 +1,4 @@
-from dcgan.utils import load_dataset
+from dcgan.utils import load_dataset, make_video
 from dcgan.model import build_discriminator, build_generator
 from dcgan.train import generate_images, train
 from dcgan.config.constants import EPOCHS
@@ -16,6 +16,8 @@ def main():
 
     generator.save("outputs/models/generator.keras")
     discriminator.save("outputs/models/discriminator.keras")
+
+    make_video('outputs/generated_images', 'outputs/generated_video', fps=30)
 
     
 
