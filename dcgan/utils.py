@@ -5,14 +5,17 @@ from dcgan.config.constants import IMG_HEIGHT, IMG_WIDTH, BATCH_SIZE
 import matplotlib.pyplot as plt
 import cv2
 
+# Get list of images
 def get_image_files(image_dir):
     extensions = ['jpg', 'jpeg', 'png']
     files = []
     for ext in extensions:
         files.extend(glob.glob(os.path.join(image_dir, f'*.{ext}')))
-        #files.extend(glob.glob(os.path.join(image_dir, f'**/*.{ext}'), recursive=True))
     return files
 
+# Data ingestion and preprocessing
+
+# Preprocessing images
 def preprocess_image(file_path):
     img = tf.io.read_file(file_path)
     img = tf.image.decode_jpeg(img, channels = 3)
@@ -21,6 +24,7 @@ def preprocess_image(file_path):
     img = (img - 0.5)*2
     return img
 
+# Loading dataset
 def load_dataset(image_dir):
     image_paths = get_image_files(image_dir)
     # image_paths = [str(p) for p in image_paths]  # Ensure all are strings
@@ -31,6 +35,7 @@ def load_dataset(image_dir):
     dataset = dataset.shuffle(1000).batch(BATCH_SIZE).prefetch(tf.data.AUTOTUNE)
     return dataset
 
+# Generate images from model and saving
 def generate_and_save_images(model, epoch, test_input):
     predictions = model(test_input, training = False)
     predictions = (predictions + 1)/2.0
@@ -43,6 +48,7 @@ def generate_and_save_images(model, epoch, test_input):
     plt.savefig(f"outputs/generated_images/images_at_epoch_{epoch:04d}.png")
     plt.close()
 
+# Make video from images
 def make_video(image_path, video_path, fps=30):
     image_folder = image_path
     output_video = video_path

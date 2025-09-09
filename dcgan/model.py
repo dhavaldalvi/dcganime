@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from dcgan.config.constants import LATENT_DIM, IMG_HEIGHT, IMG_WIDTH, CHANNELS
 
+# Generator
 def build_generator():
     model = tf.keras.Sequential([
         layers.Input(shape=(LATENT_DIM,)),
@@ -22,6 +23,7 @@ def build_generator():
     ])
     return model
 
+# Discriminator
 def build_discriminator():
     model = tf.keras.Sequential([
         layers.Input(shape = (IMG_HEIGHT, IMG_WIDTH, CHANNELS)),
@@ -41,6 +43,7 @@ def build_discriminator():
     ])
     return model
 
+# Loss and Optimizers
 cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits = True)
 generator_optimizer = tf.keras.optimizers.Adam(1e-4, beta_1 = 0.5)
 discriminator_optimizer = tf.keras.optimizers.Adam(1e-4, beta_1 = 0.5)

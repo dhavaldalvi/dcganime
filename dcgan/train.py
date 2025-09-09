@@ -2,9 +2,9 @@ import tensorflow as tf
 from dcgan.config.constants import LATENT_DIM, BATCH_SIZE
 from dcgan.model import cross_entropy, generator_optimizer, discriminator_optimizer
 from dcgan.utils import generate_and_save_images
-import os
 import matplotlib.pyplot as plt
 
+# Training Function
 @tf.function
 def train_step(images, generator, discriminator):
     noise = tf.random.normal([BATCH_SIZE, LATENT_DIM])
@@ -29,7 +29,7 @@ def train_step(images, generator, discriminator):
 
     return gen_loss, disc_loss
 
-
+# Training loop
 def train(dataset, epochs, generator, discriminator):
     seed = tf.random.normal([16, LATENT_DIM])
 
@@ -41,6 +41,7 @@ def train(dataset, epochs, generator, discriminator):
         print(f"Generator loss: {g_loss.numpy():.4f} | Discriminator loss: {d_loss.numpy():.4f}")
         generate_and_save_images(generator, epoch, seed)
 
+# Generate sample images from trained model
 def generate_images(n, generator):
     noise = tf.random.normal([n, LATENT_DIM])
     images = generator(noise, training = False)
