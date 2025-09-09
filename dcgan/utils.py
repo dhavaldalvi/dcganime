@@ -48,24 +48,40 @@ def make_video(image_path, video_path, fps=30):
     output_video = video_path
     
     # Get image file list and sort it
-    images =  [img for img in os.listdir(image_folder) if img.endswith(('.jpg','.png'))]
+    images =  [img for img in os.listdir(image_folder) if img.lower().endswith(('.jpg','.png'))]
     images.sort()
+
+    if len(images) == 0:
+        raise ValueError('No images found in the folder')
+    
+    print(f"Found {len(images)} images.")
 
     # Read first image to get dimensions
     first_image_path = os.path.join(image_folder, images[0])
     frame = cv2.imread(first_image_path)
+    if frame is None:
+        raise ValueError(f"Failed to read the first image: {first_image_path}")
     height, width, layers = frame.shape
+    print(f"Frame size: {width}x{height}")
 
     # Define video codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     video = cv2.VideoWriter(output_video, fourcc, fps, (width, height))
 
     # Add each image to the video
+    frame_count = 0
     for image in images:
         img_path = os.path.join(image_folder, image)
         frame = cv2.imread(img_path)
+        if frame is None:
+            print(f"Skipping unreadable image: {img_path}")
+            continue
+
+        if frame.shape[0] != height or frame.shape[1] != width:
+            frame = cv2.resize(frame, (width, height))
         video.write(frame)
+        frame_count += 1
 
     # Release the video writer
     video.release()
-    print(f'video saved as {output_video}')
+    print(f'video saved as {output_video} with {frame_count} frames.')
