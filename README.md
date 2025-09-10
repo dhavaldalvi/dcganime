@@ -5,11 +5,8 @@ This project implements a **Deep Convolutional Generative Adversarial Network (D
 
 ## 🎥 Progession of the training
 
-<video width="600" controls>
-  <source src="https://github.com/user-attachments/assets/ad043455-d25f-4ad0-8a11-e1a45d0dcbe4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
+  ![Image](https://github.com/user-attachments/assets/0fa13e36-475c-4b26-a165-d8ee4d4e4a20)
+  
 ---
 
 ## 🧠 Model Overview
@@ -27,6 +24,48 @@ The model is trained on the **Anime Face Dataset** consisting of cropped and ali
 
 ---
 
-## 🏗️ Project Structure
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://https://github.com/dhavaldalvi/dcganime.git
+cd dcganime
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Prepare the dataset
+
+Place your anime face images inside the data/ directory.
+
+### 4. Train the model
+
+```bash
+python main.py
+```
+The values of batch size and epoch are stored in dcgan/config/constants.py.
+
+Or
+
+### 4. Can use the saved model
+
+you can use the saved models at "https://github.com/dhavaldalvi/dcganime/tree/main/outputs/models"
 
 
+## 📌 Requirements
+- Python 3.8-3.11
+- tensorflow
+- matplotlib
+- opencv
+
+## 🙌 Acknowledgments
+
+- Thanks to the open-source community for tools and datasets.
+- Special thanks to the creators of the Anime Face dataset.
