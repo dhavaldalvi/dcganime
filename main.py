@@ -22,7 +22,7 @@ def main():
     discriminator.save("outputs/models/discriminator.keras")
     
     # Making video from saved images to show the progess of the model
-    make_video('outputs/generated_images', 'outputs/generated_video/generated_video.mp4', fps=EPOCHS)
+    make_video('outputs/generated_images', 'outputs/generated_video/generated_video.mp4', fps=20)
 
 if __name__ == "__main__":
     main()
