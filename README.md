@@ -3,6 +3,8 @@
 
 This project implements a **Deep Convolutional Generative Adversarial Network (DCGAN)** trained on an **Anime Face Dataset** to generate anime-style face images.
 
+Note: This model trained with only 100 epochs. 
+
 ## 🎥 Progession of the training
 
   ![Image](https://github.com/user-attachments/assets/0fa13e36-475c-4b26-a165-d8ee4d4e4a20)
